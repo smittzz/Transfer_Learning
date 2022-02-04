@@ -7,11 +7,17 @@ from sklearn.manifold import TSNE
 from scipy.stats import wasserstein_distance
 
 # Data preprocessing tasks
-test2001 = pd.read_csv('C:/Users/Bradyn/PycharmProjects/research/2001/2001/testDataset.csv')
-train2001 = pd.read_csv('C:/Users/Bradyn/PycharmProjects/research/2001/2001/traindataset.csv')
+testData2001 = pd.read_csv('C:/Users/brady/Documents/GitHub/Transfer_Learning/2001/2001/testDataset.csv')
+trainData2001 = pd.read_csv('C:/Users/brady/Documents/GitHub/Transfer_Learning/2001/2001/traindataset.csv')
 
-test2016 = pd.read_csv('C:/Users/Bradyn/PycharmProjects/research/2016/2016/testDT.csv')
-train2016 = pd.read_csv('C:/Users/Bradyn/PycharmProjects/research/2016/2016/trainDT.csv')
+testData2016 = pd.read_csv('C:/Users/brady/Documents/GitHub/Transfer_Learning/2016/2016/testDT.csv')
+trainData2016 = pd.read_csv('C:/Users/brady/Documents/GitHub/Transfer_Learning/2016/2016/trainDT.csv')
+
+test2001 = testData2001
+train2001 = trainData2001
+
+test2016 = testData2016
+train2016 = trainData2016
 
 
 # method to remove filler characters and change data types of dataset
@@ -170,6 +176,8 @@ label0 = scaled_2001[scaled_2001.label == 0]
 label1 = scaled_2001[scaled_2001.label == 1]
 label2 = scaled_2016[scaled_2016.label == 0]
 label3 = scaled_2016[scaled_2016.label == 1]
+
+
 # label0 = label0.append(label2, ignore_index=True)
 # label1 = label1.append(label3, ignore_index=True)
 
@@ -183,16 +191,16 @@ label3 = scaled_2016[scaled_2016.label == 1]
 
 # twoDPlot(train2001,train2016,'Speed','maxMeasSide')
 
-distArr = getDistance(train2001, train2016, 'avgMeas')
-distArrTwo = getDistance(train2001, train2016, 'Speed')
-minNum = distArr[0]
-minNumTwo = distArrTwo[0]
-d = distArr[1]
-dTwo = distArrTwo[1]
-train2016['avgMeas'] = train2016['avgMeas'] - d
-train2016['Speed'] = train2016['Speed'] - dTwo
+def distShift(data2001, data2016, ftr):
+    distArr = getDistance(data2001, data2016, ftr)
+    minNum = distArr[0]
+    d = distArr[1]
+    data2016[ftr] = data2016[ftr] - d
+    return data2016[ftr]
 
-#plotMaker(train2001, train2016, 'avgMeas')
+
+
+# plotMaker(train2001, train2016, 'avgMeas')
 twoDPlot(train2001, train2016, 'Speed', 'avgMeas')
 
 train2016Shift = train2016
