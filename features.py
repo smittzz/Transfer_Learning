@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import Lasso
 from sklearn.model_selection import GridSearchCV
@@ -36,7 +36,7 @@ features2016 = x_train2016.columns
 # feature selection by Random Forest
 
 def forest_selector(x_train, y_train, features):
-    rf = RandomForestRegressor(n_estimators=100)
+    rf = RandomForestClassifier(n_estimators=100)
     rf.fit(x_train, y_train)
     plt.barh(features, rf.feature_importances_)
     plt.xlabel("Random Forest Feature Importance")
@@ -54,11 +54,11 @@ def lassoSelector(x_train, y_train, features):
                           cv=5, scoring="neg_mean_squared_error", verbose=3
                           )
 
-    search.fit(x_train2001, y_train2001)
+    search.fit(x_train, y_train)
     coefficients = search.best_estimator_.named_steps['model'].coef_
     importance = np.abs(coefficients)
 
-    print(np.array(features2001)[importance > 0])
+    print(np.array(features)[importance > 0])
 
 
 # feature scaling to fit MLP model

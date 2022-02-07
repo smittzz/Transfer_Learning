@@ -48,7 +48,7 @@ y_test2016 = test2016_labels
 def shift2001():
     for ftr in x_train2001.columns:
         main.distShift(x_train2016, x_train2001, ftr)
-       # main.distShift(x_test2016, x_test2001, ftr)
+        main.distShift(x_test2016, x_test2001, ftr)
 
 
 def shift2016():
@@ -56,8 +56,8 @@ def shift2016():
         x_train2016[ftr] = main.distShift(x_train2001, x_train2016, ftr)
         x_test2016[ftr] = main.distShift(x_test2001, x_test2016, ftr)
 
-#shift2001()
-shift2016()
+shift2001()
+#shift2016()
 
 # feature scaling to fit MLP model
 sc = StandardScaler()
@@ -90,5 +90,5 @@ def mlp(x_train, y_train, x_test, y_test):
     print("Accuracy of Classification Prediction: ", accuracy(cm))
 
 
-#mlp(x_train2001, y_train2001, x_test2001, y_test2001)
-mlp(x_train2016, y_train2016, x_test2016, y_test2016)
+mlp(x_train2001, y_train2001, x_test2001, y_test2001)
+#mlp(x_train2016, y_train2016, x_test2016, y_test2016)
